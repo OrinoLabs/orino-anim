@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <style>
+  body, button {
+    font-size: 24px;
+  }
+  </style>
+</head>
+<body>
+  <button onclick="start()">Start</button>
+  <button onclick="stop()">Stop</button>
+  <span id="time-display">0</span>
+
+  <script src="../lib/closure-library/closure/goog/base.js"></script>
+  <script src="../src/animate/animation.js"></script>
+  <script src="../src/animate/conductor.js"></script>
+  <script src="../src/animate/animate.js"></script>
+  <script>
+  var displayElem = document.querySelector('#time-display');
+
+  var anim = new animate.Animation;
+  anim.tick = function(time, elapsed) {
+    displayElem.innerHTML = Math.round(time);
+  }
+
+  function start() {
+    animate.rootConductor().add(anim);
+  }
+  function stop() {
+    animate.rootConductor().remove(anim);
+  }
+  </script>
+</body> 
+</html>
