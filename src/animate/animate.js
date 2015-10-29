@@ -47,5 +47,5 @@ window.requestAnimationFrame(function(time) {
 animate.currentTime = function() {
   // NOTE: Might be behind the actual current time (by less than 1ms) due to
   // precision difference.
-  return Date.now() - animate.timeOffset;
+  return Date.now() - animate.timeOffset_;
 };
