@@ -9,6 +9,8 @@ goog.provide('animate.Conductor');
 
 /**
  * @constructor
+ * @extends {animate.Animation}
+ * @implements {goog.Disposable}
  */
 animate.Conductor = function() {
   /** 
@@ -17,6 +19,7 @@ animate.Conductor = function() {
    */
   this.animations_ = []
 };
+animate.Conductor.prototype = Object.create(animate.Animation.prototype);
 
 
 /**
@@ -24,6 +27,9 @@ animate.Conductor = function() {
  * @private
  */
 animate.Conductor.prototype.time_ = 0;
+
+
+animate.Conductor.prototype.animFrameId_;
 
 
 /**
@@ -47,7 +53,15 @@ animate.Conductor.prototype.add = function(animation, opt_priority) {
     this.maybeStart_();
 
   } else {
-    for (var idx = 0; animation.priority < this.animations_[idx].priority; idx++) {}
+    // Ensure the same animation is not added twice.
+    var idx = this.animations_.indexOf(animation);
+    if (idx != -1) {
+      this.animations_.splice(idx, 1);
+    }
+    // Ordered insert by priority.
+    for (var idx = 0, I = this.animations_.length;
+         idx < I && animation.priority <= this.animations_[idx].priority;
+         idx++) {}
     this.animations_.splice(idx, 0, animation);
   }
 };
@@ -59,7 +73,7 @@ animate.Conductor.prototype.add = function(animation, opt_priority) {
 animate.Conductor.prototype.remove = function(animation) {
   var idx = this.animations_.indexOf(animation);
   if (idx != -1) {
-    this.animations.splice(idx, 1);
+    this.animations_.splice(idx, 1);
   }
   if (!this.animations_.length) {
     this.stop_();
@@ -70,10 +84,16 @@ animate.Conductor.prototype.remove = function(animation) {
 /**
  * @private
  */
-animate.Conductor.prototype.maybeStart_ = function() {
+animate.Conductor.prototype.scheduleTick_ = function() {
   this.boundTick_ || (this.boundTick_ = this.tick_.bind(this));
   this.animFrameId_ = window.requestAnimationFrame(this.boundTick_);
 };
+
+
+/**
+ * @private
+ */
+animate.Conductor.prototype.maybeStart_ = animate.Conductor.prototype.scheduleTick_;
 
 
 /**
@@ -91,6 +111,9 @@ animate.Conductor.prototype.stop_ = function() {
 animate.Conductor.prototype.tick_ = function(time) {
   var elapsed = time - this.time_;
   this.tick(time, elapsed);
+  if (this.animations_.length) {
+    this.scheduleTick_();
+  }
 };
 
 
@@ -103,6 +126,16 @@ animate.Conductor.prototype.tick = function(time, elapsed) {
     var anim = this.animations_[i];
     anim.tick(time, elapsed);
   }  
+};
+
+
+/**
+ * Disposes this instance.
+ */
+animate.Conductor.prototype.dispose = function() {
+  animate.Animation.prototype.dispose.call(this);
+  this.stop_();
+  this.animations_ = null;
 };
 
 
