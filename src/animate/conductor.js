@@ -82,6 +82,15 @@ animate.Conductor.prototype.remove = function(animation) {
 
 
 /**
+ * Clears all animations.
+ */
+animate.Conductor.prototype.clear = function() {
+  this.animations_.length = 0;
+  this.stop_();
+};
+
+
+/**
  * @private
  */
 animate.Conductor.prototype.scheduleTick_ = function() {
@@ -133,8 +142,8 @@ animate.Conductor.prototype.tick = function(time, elapsed) {
  * Disposes this instance.
  */
 animate.Conductor.prototype.dispose = function() {
-  animate.Animation.prototype.dispose.call(this);
   this.stop_();
+  animate.Animation.prototype.dispose.call(this);
   this.animations_ = null;
 };
 
