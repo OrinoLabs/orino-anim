@@ -6,6 +6,7 @@
 
 goog.provide('animate.Animation');
 
+goog.require('animate.AnimationState');
 
 
 /**
@@ -13,7 +14,11 @@ goog.provide('animate.Animation');
  * @implements {goog.Disposable}
  */
 animate.Animation = function() {
-
+  /**
+   * @type {animate.AnimationState}
+   * @protected
+   */
+  this.state = new animate.AnimationState;
 };
 
 
@@ -64,8 +69,18 @@ animate.Animation.prototype.stop = function() {
 
 
 /**
- * @param {number} time
- * @param {number} elapsed
+ * @param {animate.AnimationState} conductorState
+ */
+animate.Animation.prototype.tickInternal = function(conductorState) {
+  this.state.time = conductorState.time;
+  this.state.elapsed = conductorState.elapsed;
+
+  this.tick(this.state);
+};
+
+
+/**
+ * @param {animate.AnimationState} state
  */
 animate.Animation.prototype.tick = goog.abstractMethod;
 

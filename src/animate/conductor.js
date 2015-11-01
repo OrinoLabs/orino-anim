@@ -13,6 +13,8 @@ goog.provide('animate.Conductor');
  * @implements {goog.Disposable}
  */
 animate.Conductor = function() {
+  animate.Animation.call(this);
+
   /** 
    * @type {Array.<animate.Animation>}
    * @private
@@ -22,22 +24,11 @@ animate.Conductor = function() {
 animate.Conductor.prototype = Object.create(animate.Animation.prototype);
 
 
-/**
- * @type {DOMHighResTimeStamp}
+/** 
+ * @type {number}
  * @private
  */
-animate.Conductor.prototype.time_ = 0;
-
-
 animate.Conductor.prototype.animFrameId_;
-
-
-/**
- * @return {number}
- */
-animate.Conductor.prototype.time = function() {
-  return this.time_;
-};
 
 
 /**
@@ -102,6 +93,7 @@ animate.Conductor.prototype.start = function() {
   if (this.conductor) {
     this.conductor.add(this);
   } else {
+    this.boundTick_ || (this.boundTick_ = this.tick_.bind(this));
     this.clearScheduledTick_();
     this.scheduleTick_();
   }
@@ -124,7 +116,6 @@ animate.Conductor.prototype.stop = function() {
  * @private
  */
 animate.Conductor.prototype.scheduleTick_ = function() {
-  this.boundTick_ || (this.boundTick_ = this.tick_.bind(this));
   this.animFrameId_ = window.requestAnimationFrame(this.boundTick_);
 };
 
@@ -142,8 +133,11 @@ animate.Conductor.prototype.clearScheduledTick_ = function() {
  * @private
  */
 animate.Conductor.prototype.tick_ = function(time) {
-  var elapsed = time - this.time_;
-  this.tick(time, elapsed);
+  this.state.elapsed = time - this.state.time;
+  this.state.time = time;
+
+  this.tickInternal(this.state);
+
   if (this.animations_.length) {
     this.scheduleTick_();
   }
@@ -151,13 +145,12 @@ animate.Conductor.prototype.tick_ = function(time) {
 
 
 /**
- * @param {DOMHighResTimeStamp=} time
- * @parma {number} elapsed
+ * @param {animate.AnimationState} state
  */
-animate.Conductor.prototype.tick = function(time, elapsed) {
+animate.Conductor.prototype.tickInternal = function(state) {
   for (var i = 0, I = this.animations_.length; i < I; i++) {
     var anim = this.animations_[i];
-    anim.tick(time, elapsed);
+    anim.tickInternal(state);
   }  
 };
 
@@ -166,7 +159,7 @@ animate.Conductor.prototype.tick = function(time, elapsed) {
  * Disposes this instance.
  */
 animate.Conductor.prototype.dispose = function() {
-  this.stop_();
+  this.clearScheduledTick_();
   animate.Animation.prototype.dispose.call(this);
   this.animations_ = null;
 };
