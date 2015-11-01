@@ -33,12 +33,12 @@ animate.rootConductor = function() {
  * The offset between a traditional timestamp (as returned by Date.now()) and
  * DOMHighResTimestamp.
  * @type {number}
- * @protected
+ * @private
  */
 animate.timeOffset_ = 0;
 window.requestAnimationFrame(function(time) {
   animate.timeOffset_ = Date.now() - time;
-})
+});
 
 
 /**

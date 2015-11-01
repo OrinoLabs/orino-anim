@@ -42,15 +42,10 @@ animate.Conductor.prototype.time = function() {
 
 /**
  * @param {!animate.Animation} animation
- * @parma {number=} opt_priority
  */
-animate.Conductor.prototype.add = function(animation, opt_priority) {
-  if (opt_priority) {
-    animation.priority = opt_priority;
-  }
+animate.Conductor.prototype.add = function(animation) {
   if (!this.animations_.length) {
     this.animations_.push(animation);
-    this.maybeStart_();
 
   } else {
     // Ensure the same animation is not added twice.
@@ -64,6 +59,8 @@ animate.Conductor.prototype.add = function(animation, opt_priority) {
          idx++) {}
     this.animations_.splice(idx, 0, animation);
   }
+
+  this.maybeStart_();
 };
 
 
@@ -76,7 +73,7 @@ animate.Conductor.prototype.remove = function(animation) {
     this.animations_.splice(idx, 1);
   }
   if (!this.animations_.length) {
-    this.stop_();
+    this.stop();
   }
 };
 
@@ -93,6 +90,39 @@ animate.Conductor.prototype.clear = function() {
 /**
  * @private
  */
+animate.Conductor.prototype.maybeStart_ = function() {
+  this.start();
+};
+
+
+/**
+ * @inheritDoc
+ */
+animate.Conductor.prototype.start = function() {
+  if (this.conductor) {
+    this.conductor.add(this);
+  } else {
+    this.clearScheduledTick_();
+    this.scheduleTick_();
+  }
+};
+
+
+/**
+ * @inheritDoc
+ */
+animate.Conductor.prototype.stop = function() {
+  if (this.conductor) {
+    this.conductor.remove(this);
+  } else {
+    this.clearScheduledTick_();
+  }
+};
+
+
+/**
+ * @private
+ */
 animate.Conductor.prototype.scheduleTick_ = function() {
   this.boundTick_ || (this.boundTick_ = this.tick_.bind(this));
   this.animFrameId_ = window.requestAnimationFrame(this.boundTick_);
@@ -102,13 +132,7 @@ animate.Conductor.prototype.scheduleTick_ = function() {
 /**
  * @private
  */
-animate.Conductor.prototype.maybeStart_ = animate.Conductor.prototype.scheduleTick_;
-
-
-/**
- * @private
- */
-animate.Conductor.prototype.stop_ = function() {
+animate.Conductor.prototype.clearScheduledTick_ = function() {
   window.cancelAnimationFrame(this.animFrameId_);
 };
 
