@@ -11,14 +11,45 @@ goog.require('animate.AnimationState');
 
 /**
  * @constructor
+ */
+animate.AnimationOptions = function() {};
+animate.AnimationOptions.prototype = {
+  /** @type {animate.Conductor} */
+  conductor: null,
+  /** @type {(number|undefined)} */
+  priority: undefined,
+  /** @type {(number|undefined)} */
+  duration: undefined,
+  /** @type {function(animate.AnimationState):void} */
+  tick: null,
+};
+
+
+
+/**
+ * @param {animate.AnimationOptions=} opt_opts
+ * @constructor
  * @implements {goog.Disposable}
  */
-animate.Animation = function(opt_duration) {
+animate.Animation = function(opt_opts) {
+  var opts = opt_opts || {};
+
+  if (opts.conductor) {
+    this.conductor = opts.conductor;
+  }
+  if (opts.priority) {
+    this.priority = opts.priority;
+  }
+
   /**
    * @type {number}
    * @private
    */
-  this.duration_ = opt_duration || 0;
+  this.duration_ = opts.duration || 0;
+
+  if (opts.tick) {
+    this.tick = opts.tick;
+  }
 
   /**
    * @type {animate.AnimationState}
@@ -45,14 +76,6 @@ animate.Animation.prototype.priority = animate.Animation.DEFAULT_PRIORITY;
  * @package
  */
 animate.Animation.prototype.conductor;
-
-
-/**
- * @param {animate.Conductor} conductor
- */
-animate.Animation.prototype.setConductor = function(conductor) {
-  this.conductor = conductor;
-};
 
 
 /**

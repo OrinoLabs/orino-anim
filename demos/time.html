@@ -28,10 +28,11 @@
   <script>
   var displayElem = document.querySelector('#time-display');
 
-  var anim = new animate.Animation;
-  anim.tick = function(state) {
-    displayElem.innerHTML = Math.round(state.time);
-  }
+  var anim = new animate.Animation({
+    tick: function(state) {
+      displayElem.innerHTML = Math.round(state.time);
+    }
+  });
 
   function start() {
     anim.start();
@@ -42,10 +43,12 @@
 
   function startLimited() {
     var elem = document.querySelector('#time-display-2');
-    var anim = new animate.Animation(1000);
-    anim.tick = function(state) {
-      elem.innerHTML = Math.round(state.totalElapsed);
-    }
+    var anim = new animate.Animation({
+      duration: 1000,
+      tick: function(state) {
+        elem.innerHTML = Math.round(state.totalElapsed);
+      }
+    });
     anim.start();
   }
 
