@@ -8,9 +8,17 @@
   </style>
 </head>
 <body>
-  <button onclick="start()">Start</button>
-  <button onclick="stop()">Stop</button>
-  <span id="time-display">0</span>
+  <div>
+    Display the time:<br>
+    <button onclick="start()">Start</button>
+    <button onclick="stop()">Stop</button>
+    <span id="time-display">0</span>
+  </div>
+  <div>
+    Display the time for 1 second:<br>
+    <button onclick="startLimited()">Start</button>
+    <span id="time-display-2">0</span>
+  </div>
 
   <script src="../lib/closure-library/closure/goog/base.js"></script>
   <script src="../src/animate/animationstate.js"></script>
@@ -31,6 +39,16 @@
   function stop() {
     anim.stop();
   }
+
+  function startLimited() {
+    var elem = document.querySelector('#time-display-2');
+    var anim = new animate.Animation(1000);
+    anim.tick = function(state) {
+      elem.innerHTML = Math.round(state.totalElapsed);
+    }
+    anim.start();
+  }
+
   </script>
 </body> 
 </html>

@@ -22,3 +22,16 @@ animate.AnimationState.prototype.time = 0;
  * @type {number}
  */
 animate.AnimationState.prototype.elapsed = 0;
+
+
+/**
+ * Total time the animation has been running.
+ * @type {number}
+ */
+animate.AnimationState.prototype.totalElapsed = 0;
+
+
+/**
+ * @type {number}
+ */
+animate.AnimationState.prototype.progress = 0;

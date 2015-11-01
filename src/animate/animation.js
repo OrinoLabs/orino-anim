@@ -13,7 +13,13 @@ goog.require('animate.AnimationState');
  * @constructor
  * @implements {goog.Disposable}
  */
-animate.Animation = function() {
+animate.Animation = function(opt_duration) {
+  /**
+   * @type {number}
+   * @private
+   */
+  this.duration_ = opt_duration || 0;
+
   /**
    * @type {animate.AnimationState}
    * @protected
@@ -53,6 +59,10 @@ animate.Animation.prototype.setConductor = function(conductor) {
  * Starts the animation.
  */
 animate.Animation.prototype.start = function() {
+  // TODO: Already running?
+
+  this.state.totalElapsed = 0;
+
   if (!this.conductor) {
     this.conductor = animate.rootConductor();
   }
@@ -72,10 +82,25 @@ animate.Animation.prototype.stop = function() {
  * @param {animate.AnimationState} conductorState
  */
 animate.Animation.prototype.tickInternal = function(conductorState) {
-  this.state.time = conductorState.time;
-  this.state.elapsed = conductorState.elapsed;
+  var state = this.state;
+  state.time = conductorState.time;
+  state.elapsed = conductorState.elapsed;
 
-  this.tick(this.state);
+  state.totalElapsed += state.elapsed;
+
+  if (this.duration_) {
+    state.progress = state.totalElapsed / this.duration_;
+    if (state.progress > 1) {
+      state.progress = 1;
+      state.totalElapsed = this.duration_;
+    }
+  }
+
+  this.tick(state);
+
+  if (state.progress == 1) {
+    this.stop();
+  }
 };
 
 
