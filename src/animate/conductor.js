@@ -104,7 +104,6 @@ animate.Conductor.prototype.remove = function(animation) {
  * Clears all animations.
  */
 animate.Conductor.prototype.clear = function() {
-  console.log('clear')
   this.stop();
   this.animations_.length = 0;
 };

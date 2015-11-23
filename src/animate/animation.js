@@ -85,6 +85,15 @@ animate.Animation.prototype.start = function() {
   // TODO: Already running?
 
   this.state.totalElapsed = 0;
+  this.state.progress = 0;
+  this.state.elapsed = 0;
+
+  if (this.duration_) {
+    // Synchronously call tick with progress = 0 to ensure the animation gets
+    // a chance to set ifself up. Otherwise whatever is being animated might
+    // show up in an unwanted state for a short time (until the next tick).
+    this.tick(this.state);
+  }
 
   if (!this.conductor) {
     this.conductor = animate.rootConductor();
