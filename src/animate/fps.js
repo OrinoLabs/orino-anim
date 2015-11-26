@@ -1,12 +1,26 @@
+/**
+ * @copyright 2015 Orino Labs GmbH
+ * @author Michael Bürge <mib@orino.ch>
+ */
 
 
 goog.provide('animate.Fps');
-goog.provide('fpsmon.Display');
+goog.provide('animate.Fps.View');
+
+goog.require('animate.Animation');
 
 
+/**
+ * @constructor
+ * @extends {animate.Animation}
+ */
 animate.Fps = function() {
   this.timestamps_ = [];
 };
+goog.inherits(animate.Fps, animate.Animation);
+
+
+
 
 animate.Fps.prototype.modulus_ = 100;
 animate.Fps.prototype.head_ = 0;
@@ -21,8 +35,11 @@ animate.Fps.prototype.incTail_ = function() {
 };
 
 
-animate.Fps.prototype.tick = function() {
-  var now = Date.now();
+/**
+ * @inheritDoc
+ */
+animate.Fps.prototype.tick = function(state) {
+  var now = state.time;
   this.timestamps_[this.head_] = now;
   this.incHead_();
   if (this.head_ == this.tail_) {
@@ -44,23 +61,23 @@ animate.Fps.prototype.fps = function() {
 // --------------------------------------------------------------------------
 
 
-fpsmon.Display = function(mon, elem, opt_updateInterval) {
+animate.Fps.View = function(mon, elem, opt_updateInterval) {
   this.monitor_ = mon;
   this.elem_ = elem;
   this.updateInterval_ = opt_updateInterval || 300;
   this.start();
 };
 
-fpsmon.Display.prototype.start = function() {
+animate.Fps.View.prototype.start = function() {
   this.stop();
   this.intervalId_ = window.setInterval(this.update_.bind(this), this.updateInterval_);
 };
 
-fpsmon.Display.prototype.stop = function() {
+animate.Fps.View.prototype.stop = function() {
   window.clearInterval(this.intervalId_);
 };
 
-fpsmon.Display.prototype.update_ = function() {
+animate.Fps.View.prototype.update_ = function() {
   this.elem_.innerHTML = this.monitor_.fps();
 };
 
