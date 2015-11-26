@@ -15,6 +15,8 @@ goog.require('animate.Animation');
  * @extends {animate.Animation}
  */
 animate.Fps = function() {
+  animate.Animation.call(this);
+
   this.timestamps_ = [];
 };
 goog.inherits(animate.Fps, animate.Animation);
