@@ -83,6 +83,7 @@ animate.Animation.prototype.conductor;
  */
 animate.Animation.prototype.start = function() {
   // TODO: Already running?
+  console.log('Animation#start')
 
   this.state.totalElapsed = 0;
   this.state.progress = 0;
