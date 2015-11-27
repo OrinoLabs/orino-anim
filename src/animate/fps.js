@@ -43,7 +43,6 @@ animate.Fps.prototype.incTail_ = function() {
  * @inheritDoc
  */
 animate.Fps.prototype.tick = function(state) {
-  console.log('Fps#tick')
   var now = state.time;
   this.timestamps_[this.head_] = now;
   this.incHead_();
@@ -77,7 +76,6 @@ animate.Fps.View = function(mon, elem, opt_updateInterval) {
 };
 
 animate.Fps.View.prototype.start = function() {
-  console.log('View#start')
   this.stop();
   this.intervalId_ = window.setInterval(this.update_.bind(this), this.updateInterval_);
 };
