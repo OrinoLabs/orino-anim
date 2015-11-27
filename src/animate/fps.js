@@ -17,11 +17,13 @@ goog.require('animate.Animation');
 animate.Fps = function() {
   animate.Animation.call(this);
 
+  /**
+   * @type {DOMHighResTimeStamp}
+   * @private
+   */
   this.timestamps_ = [];
 };
 goog.inherits(animate.Fps, animate.Animation);
-
-
 
 
 animate.Fps.prototype.modulus_ = 100;
@@ -51,8 +53,11 @@ animate.Fps.prototype.tick = function(state) {
 };
 
 
+/**
+ * @return {number} The fps achieved in the last second.
+ */
 animate.Fps.prototype.fps = function() {
-  var now = Date.now();
+  var now = animate.now();
   var start = now - 1000;
   while (this.timestamps_[this.tail_] < start && this.tail_ != this.head_) {
     this.incTail_();
