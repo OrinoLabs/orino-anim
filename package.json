@@ -1,0 +1,12 @@
+{
+  "name": "orino-anim",
+  "version": "0.1.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OrinoLabs/orino-anim.git"
+  },
+  "author": "Michael Bürge <mib@orino.ch>",
+  "license": "",
+  "homepage": "https://github.com/OrinoLabs/orino-anim"
+}
