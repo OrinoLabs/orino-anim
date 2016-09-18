@@ -4,34 +4,34 @@
  */
 
 
-goog.provide('animate.AnimationState');
+goog.provide('orino.anim.AnimationState');
 
 
 
-animate.AnimationState = function() {};
+orino.anim.AnimationState = function() {};
 
 
 /**
  * @type {DOMHighResTimeStamp}
  */
-animate.AnimationState.prototype.time = 0;
+orino.anim.AnimationState.prototype.time = 0;
 
 
 /**
  * The time elapsed since the last tick.
  * @type {number}
  */
-animate.AnimationState.prototype.elapsed = 0;
+orino.anim.AnimationState.prototype.elapsed = 0;
 
 
 /**
  * Total time the animation has been running.
  * @type {number}
  */
-animate.AnimationState.prototype.totalElapsed = 0;
+orino.anim.AnimationState.prototype.totalElapsed = 0;
 
 
 /**
  * @type {number}
  */
-animate.AnimationState.prototype.progress = 0;
+orino.anim.AnimationState.prototype.progress = 0;

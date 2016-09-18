@@ -4,19 +4,19 @@
  */
 
 
-goog.provide('animate.fps');
-goog.provide('animate.fps.Monitor');
-goog.provide('animate.fps.View');
+goog.provide('orino.anim.fps');
+goog.provide('orino.anim.fps.Monitor');
+goog.provide('orino.anim.fps.View');
 
-goog.require('animate.Animation');
+goog.require('orino.anim.Animation');
 
 
 /**
  * @constructor
- * @extends {animate.Animation}
+ * @extends {orino.anim.Animation}
  */
-animate.fps.Monitor = function() {
-  animate.Animation.call(this);
+orino.anim.fps.Monitor = function() {
+  orino.anim.Animation.call(this);
 
   /**
    * @type {Array.<number>}
@@ -24,28 +24,28 @@ animate.fps.Monitor = function() {
    */
   this.timestamps_ = [];
 };
-animate.fps.Monitor.prototype = Object.create(animate.Animation.prototype);
+orino.anim.fps.Monitor.prototype = Object.create(orino.anim.Animation.prototype);
 
 
 /** @private @type {number} */
-animate.fps.Monitor.prototype.modulus_ = 100;
+orino.anim.fps.Monitor.prototype.modulus_ = 100;
 /** @private @type {number} */
-animate.fps.Monitor.prototype.head_ = 0;
+orino.anim.fps.Monitor.prototype.head_ = 0;
 /** @private @type {number} */
-animate.fps.Monitor.prototype.tail_ = 0;
+orino.anim.fps.Monitor.prototype.tail_ = 0;
 
 /** @private */
-animate.fps.Monitor.prototype.incHead_ = function() {
+orino.anim.fps.Monitor.prototype.incHead_ = function() {
   this.head_ = (this.head_ + 1) % this.modulus_;  
 };
 /** @private */
-animate.fps.Monitor.prototype.incTail_ = function() {
+orino.anim.fps.Monitor.prototype.incTail_ = function() {
   this.tail_ = (this.tail_ + 1) % this.modulus_;
 };
 
 
 /** @inheritDoc */
-animate.fps.Monitor.prototype.tick = function(state) {
+orino.anim.fps.Monitor.prototype.tick = function(state) {
   this.timestamps_[this.head_] = state.time;
   this.incHead_();
   if (this.head_ == this.tail_) {
@@ -57,8 +57,8 @@ animate.fps.Monitor.prototype.tick = function(state) {
 /**
  * @return {number} The current FPS.
  */
-animate.fps.Monitor.prototype.fps = function() {
-  var now = animate.now();
+orino.anim.fps.Monitor.prototype.fps = function() {
+  var now = orino.anim.now();
   var start = now - 1000;
   while (this.timestamps_[this.tail_] < start && this.tail_ != this.head_) {
     this.incTail_();
@@ -71,12 +71,12 @@ animate.fps.Monitor.prototype.fps = function() {
 
 
 /**
- * @param {animate.fps.Monitor} monitor
+ * @param {orino.anim.fps.Monitor} monitor
  * @param {Element} elem
  * @param {number=} opt_updateInterval
  * @constructor
  */
-animate.fps.View = function(monitor, elem, opt_updateInterval) {
+orino.anim.fps.View = function(monitor, elem, opt_updateInterval) {
   this.monitor_ = monitor;
   this.elem_ = elem;
   this.updateInterval_ = opt_updateInterval || 300;
@@ -87,7 +87,7 @@ animate.fps.View = function(monitor, elem, opt_updateInterval) {
 /**
  * Starts updating.
  */
-animate.fps.View.prototype.start = function() {
+orino.anim.fps.View.prototype.start = function() {
   this.stop();
   this.intervalId_ = window.setInterval(
       this.update_.bind(this), this.updateInterval_);
@@ -97,7 +97,7 @@ animate.fps.View.prototype.start = function() {
 /**
  * Stops updating.
  */
-animate.fps.View.prototype.stop = function() {
+orino.anim.fps.View.prototype.stop = function() {
   window.clearInterval(this.intervalId_);
 };
 
@@ -105,7 +105,7 @@ animate.fps.View.prototype.stop = function() {
 /**
  * @private
  */
-animate.fps.View.prototype.update_ = function() {
+orino.anim.fps.View.prototype.update_ = function() {
   this.elem_.innerHTML = this.monitor_.fps();
 };
 

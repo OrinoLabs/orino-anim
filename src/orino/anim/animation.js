@@ -4,34 +4,34 @@
  */
 
 
-goog.provide('animate.Animation');
+goog.provide('orino.anim.Animation');
 
-goog.require('animate.AnimationState');
+goog.require('orino.anim.AnimationState');
 
 
 /**
  * @constructor
  */
-animate.AnimationOptions = function() {};
-animate.AnimationOptions.prototype = {
-  /** @type {animate.Conductor} */
+orino.anim.AnimationOptions = function() {};
+orino.anim.AnimationOptions.prototype = {
+  /** @type {orino.anim.Conductor} */
   conductor: null,
   /** @type {(number|undefined)} */
   priority: undefined,
   /** @type {(number|undefined)} */
   duration: undefined,
-  /** @type {function(animate.AnimationState):void} */
+  /** @type {function(orino.anim.AnimationState):void} */
   tick: null,
 };
 
 
 
 /**
- * @param {animate.AnimationOptions=} opt_opts
+ * @param {orino.anim.AnimationOptions=} opt_opts
  * @constructor
  * @implements {goog.Disposable}
  */
-animate.Animation = function(opt_opts) {
+orino.anim.Animation = function(opt_opts) {
   var opts = opt_opts || {};
 
   if (opts.conductor) {
@@ -52,36 +52,36 @@ animate.Animation = function(opt_opts) {
   }
 
   /**
-   * @type {animate.AnimationState}
+   * @type {orino.anim.AnimationState}
    * @protected
    */
-  this.state = new animate.AnimationState;
+  this.state = new orino.anim.AnimationState;
 };
 
 
 /**
  * @type {number}
  */
-animate.Animation.DEFAULT_PRIORITY = 1;
+orino.anim.Animation.DEFAULT_PRIORITY = 1;
 
 
 /** 
  * @type {number}
  */
-animate.Animation.prototype.priority = animate.Animation.DEFAULT_PRIORITY;
+orino.anim.Animation.prototype.priority = orino.anim.Animation.DEFAULT_PRIORITY;
 
 
 /**
- * @type {animate.Conductor}
+ * @type {orino.anim.Conductor}
  * @package
  */
-animate.Animation.prototype.conductor;
+orino.anim.Animation.prototype.conductor;
 
 
 /**
  * Starts the animation.
  */
-animate.Animation.prototype.start = function() {
+orino.anim.Animation.prototype.start = function() {
   // TODO: Already running?
 
   this.state.totalElapsed = 0;
@@ -90,13 +90,13 @@ animate.Animation.prototype.start = function() {
 
   if (this.duration_) {
     // Synchronously call tick with progress = 0 to ensure the animation gets
-    // a chance to set ifself up. Otherwise whatever is being animated might
+    // a chance to set ifself up. Otherwise whatever is being orino.animd might
     // show up in an unwanted state for a short time (until the next tick).
     this.tick(this.state);
   }
 
   if (!this.conductor) {
-    this.conductor = animate.rootConductor();
+    this.conductor = orino.anim.rootConductor();
   }
   this.conductor.add(this);
 };
@@ -105,15 +105,15 @@ animate.Animation.prototype.start = function() {
 /**
  * Stops the animation.
  */
-animate.Animation.prototype.stop = function() {
+orino.anim.Animation.prototype.stop = function() {
   this.conductor && this.conductor.remove(this);
 };
 
 
 /**
- * @param {animate.AnimationState} conductorState
+ * @param {orino.anim.AnimationState} conductorState
  */
-animate.Animation.prototype.tickInternal = function(conductorState) {
+orino.anim.Animation.prototype.tickInternal = function(conductorState) {
   var state = this.state;
   state.time = conductorState.time;
   state.elapsed = conductorState.elapsed;
@@ -137,14 +137,14 @@ animate.Animation.prototype.tickInternal = function(conductorState) {
 
 
 /**
- * @param {animate.AnimationState} state
+ * @param {orino.anim.AnimationState} state
  */
-animate.Animation.prototype.tick = goog.abstractMethod;
+orino.anim.Animation.prototype.tick = goog.abstractMethod;
 
 
 /**
  * Disposes this instance.
  */
-animate.Animation.prototype.dispose = function() {
+orino.anim.Animation.prototype.dispose = function() {
   this.tick = null;
 };

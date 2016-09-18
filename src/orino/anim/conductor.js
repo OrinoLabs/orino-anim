@@ -4,22 +4,22 @@
  */
 
 
-goog.provide('animate.Conductor');
+goog.provide('orino.anim.Conductor');
 
-goog.require('animate.Animation');
+goog.require('orino.anim.Animation');
 
 
 
 /**
  * @constructor
- * @extends {animate.Animation}
+ * @extends {orino.anim.Animation}
  * @implements {goog.Disposable}
  */
-animate.Conductor = function() {
-  animate.Animation.call(this);
+orino.anim.Conductor = function() {
+  orino.anim.Animation.call(this);
 
   /** 
-   * @type {Array.<animate.Animation>}
+   * @type {Array.<orino.anim.Animation>}
    * @private
    */
   this.animations_ = [];
@@ -27,36 +27,36 @@ animate.Conductor = function() {
 
   this.afterCurrentTickCallbacks_ = []
 };
-animate.Conductor.prototype = Object.create(animate.Animation.prototype);
+orino.anim.Conductor.prototype = Object.create(orino.anim.Animation.prototype);
 
 
 /** 
  * @type {number}
  * @private
  */
-animate.Conductor.prototype.animFrameId_ = 0;
+orino.anim.Conductor.prototype.animFrameId_ = 0;
 
 
 /**
  * @type {boolean}
  * @private
  */
-animate.Conductor.prototype.inTick_ = false;
+orino.anim.Conductor.prototype.inTick_ = false;
 
 
 /**
  * @param {Function} fn
  * @private
  */
-animate.Conductor.prototype.afterCurrentTick_ = function(fn) {
+orino.anim.Conductor.prototype.afterCurrentTick_ = function(fn) {
   this.afterCurrentTickCallbacks_.push(fn);
 };
 
 
 /**
- * @param {!animate.Animation} animation
+ * @param {!orino.anim.Animation} animation
  */
-animate.Conductor.prototype.add = function(animation) {
+orino.anim.Conductor.prototype.add = function(animation) {
   if (this.inTick_) {
     this.afterCurrentTick_(this.add.bind(this, animation));
     return;
@@ -82,9 +82,9 @@ animate.Conductor.prototype.add = function(animation) {
 
 
 /**
- * @param {animate.Animation} animation
+ * @param {orino.anim.Animation} animation
  */
-animate.Conductor.prototype.remove = function(animation) {
+orino.anim.Conductor.prototype.remove = function(animation) {
   if (this.inTick_) {
     this.afterCurrentTick_(this.remove.bind(this, animation));
     return;
@@ -103,7 +103,7 @@ animate.Conductor.prototype.remove = function(animation) {
 /**
  * Clears all animations.
  */
-animate.Conductor.prototype.clear = function() {
+orino.anim.Conductor.prototype.clear = function() {
   this.stop();
   this.animations_.length = 0;
 };
@@ -112,7 +112,7 @@ animate.Conductor.prototype.clear = function() {
 /**
  * @private
  */
-animate.Conductor.prototype.maybeStart_ = function() {
+orino.anim.Conductor.prototype.maybeStart_ = function() {
   this.start();
 };
 
@@ -120,11 +120,11 @@ animate.Conductor.prototype.maybeStart_ = function() {
 /**
  * @inheritDoc
  */
-animate.Conductor.prototype.start = function() {
+orino.anim.Conductor.prototype.start = function() {
   if (this.conductor) {
     this.conductor.add(this);
   } else {
-    this.state.time = animate.currentTime();
+    this.state.time = orino.anim.currentTime();
     this.boundTick_ || (this.boundTick_ = this.tick_.bind(this));
     this.clearScheduledTick_();
     this.scheduleTick_();
@@ -135,7 +135,7 @@ animate.Conductor.prototype.start = function() {
 /**
  * @inheritDoc
  */
-animate.Conductor.prototype.stop = function() {
+orino.anim.Conductor.prototype.stop = function() {
   if (this.conductor) {
     this.conductor.remove(this);
   } else {
@@ -147,7 +147,7 @@ animate.Conductor.prototype.stop = function() {
 /**
  * @private
  */
-animate.Conductor.prototype.scheduleTick_ = function() {
+orino.anim.Conductor.prototype.scheduleTick_ = function() {
   this.animFrameId_ = window.requestAnimationFrame(this.boundTick_);
 };
 
@@ -155,7 +155,7 @@ animate.Conductor.prototype.scheduleTick_ = function() {
 /**
  * @private
  */
-animate.Conductor.prototype.clearScheduledTick_ = function() {
+orino.anim.Conductor.prototype.clearScheduledTick_ = function() {
   window.cancelAnimationFrame(this.animFrameId_);
 };
 
@@ -164,7 +164,7 @@ animate.Conductor.prototype.clearScheduledTick_ = function() {
  * @param {DOMHighResTimestamp} time
  * @private
  */
-animate.Conductor.prototype.tick_ = function(time) {
+orino.anim.Conductor.prototype.tick_ = function(time) {
   this.state.elapsed = time - this.state.time;
   this.state.time = time;
 
@@ -177,9 +177,9 @@ animate.Conductor.prototype.tick_ = function(time) {
 
 
 /**
- * @param {animate.AnimationState} state
+ * @param {orino.anim.AnimationState} state
  */
-animate.Conductor.prototype.tickInternal = function(state) {
+orino.anim.Conductor.prototype.tickInternal = function(state) {
   this.inTick_ = true;
   for (var i = 0, I = this.animations_.length; i < I; i++) {
     var anim = this.animations_[i];
@@ -196,9 +196,9 @@ animate.Conductor.prototype.tickInternal = function(state) {
 /**
  * Disposes this instance.
  */
-animate.Conductor.prototype.dispose = function() {
+orino.anim.Conductor.prototype.dispose = function() {
   this.clearScheduledTick_();
-  animate.Animation.prototype.dispose.call(this);
+  orino.anim.Animation.prototype.dispose.call(this);
   this.animations_ = null;
 };
 

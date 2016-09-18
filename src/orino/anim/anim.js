@@ -4,9 +4,9 @@
  */
 
 
-goog.provide('animate');
+goog.provide('orino.anim');
 
-goog.require('animate.Conductor');
+goog.require('orino.anim.Conductor');
 
 
 
@@ -14,13 +14,13 @@ goog.require('animate.Conductor');
  * @type {animate.Conductor}
  * @private
  */
-animate.rootConductor_;
+orino.anim.rootConductor_;
 
 
 /**
  * @return {animate.Conductor}
  */
-animate.rootConductor = function() {
+orino.anim.rootConductor = function() {
   if (!animate.rootConductor_) {
     animate.rootConductor_ = new animate.Conductor;
   }
@@ -35,19 +35,19 @@ animate.rootConductor = function() {
  * @type {number}
  * @private
  */
-animate.timeOffset_ = 0;
+orino.anim.timeOffset_ = 0;
 window.requestAnimationFrame(function(time) {
-  animate.timeOffset_ = Date.now() - time;
+  orino.anim.timeOffset_ = Date.now() - time;
 });
 
 
 /**
  * @return {DOMHighResTimeStamp}
  */
-animate.now = animate.currentTime = function() {
+orino.anim.now = orino.anim.currentTime = function() {
   // NOTE: Might be behind the actual current time (by less than 1ms) due to
   // precision difference.
-  return Date.now() - animate.timeOffset_;
+  return Date.now() - orino.anim.timeOffset_;
 };
 
 
@@ -55,5 +55,5 @@ animate.now = animate.currentTime = function() {
  * @return {DOMHighResTimeStamp}
  * @deprecated
  */
-animate.currentTime = animate.now;
+orino.anim.currentTime = orino.anim.now;
 
