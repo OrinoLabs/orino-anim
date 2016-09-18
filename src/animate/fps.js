@@ -4,8 +4,9 @@
  */
 
 
-goog.provide('animate.Fps');
-goog.provide('animate.Fps.View');
+goog.provide('animate.fps');
+goog.provide('animate.fps.Monitor');
+goog.provide('animate.fps.View');
 
 goog.require('animate.Animation');
 
@@ -14,37 +15,38 @@ goog.require('animate.Animation');
  * @constructor
  * @extends {animate.Animation}
  */
-animate.Fps = function() {
+animate.fps.Monitor = function() {
   animate.Animation.call(this);
 
   /**
-   * @type {DOMHighResTimeStamp}
+   * @type {Array.<number>}
    * @private
    */
   this.timestamps_ = [];
 };
-goog.inherits(animate.Fps, animate.Animation);
+animate.fps.Monitor.prototype = Object.create(animate.Animation.prototype);
 
 
-animate.Fps.prototype.modulus_ = 100;
-animate.Fps.prototype.head_ = 0;
-animate.Fps.prototype.tail_ = 0;
+/** @private @type {number} */
+animate.fps.Monitor.prototype.modulus_ = 100;
+/** @private @type {number} */
+animate.fps.Monitor.prototype.head_ = 0;
+/** @private @type {number} */
+animate.fps.Monitor.prototype.tail_ = 0;
 
-
-animate.Fps.prototype.incHead_ = function() {
+/** @private */
+animate.fps.Monitor.prototype.incHead_ = function() {
   this.head_ = (this.head_ + 1) % this.modulus_;  
 };
-animate.Fps.prototype.incTail_ = function() {
+/** @private */
+animate.fps.Monitor.prototype.incTail_ = function() {
   this.tail_ = (this.tail_ + 1) % this.modulus_;
 };
 
 
-/**
- * @inheritDoc
- */
-animate.Fps.prototype.tick = function(state) {
-  var now = state.time;
-  this.timestamps_[this.head_] = now;
+/** @inheritDoc */
+animate.fps.Monitor.prototype.tick = function(state) {
+  this.timestamps_[this.head_] = state.time;
   this.incHead_();
   if (this.head_ == this.tail_) {
     this.incTail_();
@@ -53,9 +55,9 @@ animate.Fps.prototype.tick = function(state) {
 
 
 /**
- * @return {number} The fps achieved in the last second.
+ * @return {number} The current FPS.
  */
-animate.Fps.prototype.fps = function() {
+animate.fps.Monitor.prototype.fps = function() {
   var now = animate.now();
   var start = now - 1000;
   while (this.timestamps_[this.tail_] < start && this.tail_ != this.head_) {
@@ -65,29 +67,45 @@ animate.Fps.prototype.fps = function() {
 };
 
 
-// --------------------------------------------------------------------------
+/******************************************************************************/
 
 
-animate.Fps.View = function(mon, elem, opt_updateInterval) {
-  this.monitor_ = mon;
+/**
+ * @param {animate.fps.Monitor} monitor
+ * @param {Element} elem
+ * @param {number=} opt_updateInterval
+ * @constructor
+ */
+animate.fps.View = function(monitor, elem, opt_updateInterval) {
+  this.monitor_ = monitor;
   this.elem_ = elem;
   this.updateInterval_ = opt_updateInterval || 300;
   this.start();
 };
 
-animate.Fps.View.prototype.start = function() {
+
+/**
+ * Starts updating.
+ */
+animate.fps.View.prototype.start = function() {
   this.stop();
-  this.intervalId_ = window.setInterval(this.update_.bind(this), this.updateInterval_);
+  this.intervalId_ = window.setInterval(
+      this.update_.bind(this), this.updateInterval_);
 };
 
-animate.Fps.View.prototype.stop = function() {
+
+/**
+ * Stops updating.
+ */
+animate.fps.View.prototype.stop = function() {
   window.clearInterval(this.intervalId_);
 };
 
-animate.Fps.View.prototype.update_ = function() {
+
+/**
+ * @private
+ */
+animate.fps.View.prototype.update_ = function() {
   this.elem_.innerHTML = this.monitor_.fps();
 };
-
-
-
 
