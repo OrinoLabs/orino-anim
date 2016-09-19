@@ -124,7 +124,7 @@ orino.anim.Conductor.prototype.start = function() {
   if (this.conductor) {
     this.conductor.add(this);
   } else {
-    this.state.time = orino.anim.currentTime();
+    this.state.time = orino.anim.now();
     this.boundTick_ || (this.boundTick_ = this.tick_.bind(this));
     this.clearScheduledTick_();
     this.scheduleTick_();

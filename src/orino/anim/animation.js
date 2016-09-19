@@ -90,7 +90,7 @@ orino.anim.Animation.prototype.start = function() {
 
   if (this.duration_) {
     // Synchronously call tick with progress = 0 to ensure the animation gets
-    // a chance to set ifself up. Otherwise whatever is being orino.animd might
+    // a chance to set ifself up. Otherwise whatever is being animated might
     // show up in an unwanted state for a short time (until the next tick).
     this.tick(this.state);
   }
