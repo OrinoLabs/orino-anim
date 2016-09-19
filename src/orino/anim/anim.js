@@ -44,7 +44,7 @@ window.requestAnimationFrame(function(time) {
 /**
  * @return {DOMHighResTimeStamp}
  */
-orino.anim.now = orino.anim.currentTime = function() {
+orino.anim.now = function() {
   // NOTE: Might be behind the actual current time (by less than 1ms) due to
   // precision difference.
   return Date.now() - orino.anim.timeOffset_;
