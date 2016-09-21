@@ -98,6 +98,14 @@ orino.anim.Animation.prototype.isPassive = function() {
 
 
 /**
+ * @return {boolean}
+ */
+orino.anim.Animation.prototype.isRunning = function() {
+  return this.conductor && this.conductor.isRunning() || false;
+};
+
+
+/**
  * Starts the animation.
  */
 orino.anim.Animation.prototype.start = function() {

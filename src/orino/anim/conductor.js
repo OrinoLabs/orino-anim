@@ -45,6 +45,16 @@ orino.anim.Conductor.prototype.inTick_ = false;
 
 
 /**
+ * @return {boolean}
+ */
+orino.anim.Conductor.prototype.isRunning = function() {
+  if (this.conductor) return this.conductor.isRunning();
+  if (this.loop_) return this.loop_.isRunning();
+  return false;
+};
+
+
+/**
  * @param {Function} fn
  * @private
  */

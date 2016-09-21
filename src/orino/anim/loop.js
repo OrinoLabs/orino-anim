@@ -25,9 +25,11 @@ orino.anim.Loop = function(callback) {
     window.cancelAnimationFrame(requestId)
   }
 
+  var running = false;
 
   /** Starts the requestAnimationFrame loop. */
   this.start = function() {
+    running = true;
     cancel();
     scheduleNext();
   };
@@ -35,6 +37,12 @@ orino.anim.Loop = function(callback) {
   /** Stops the requestAnimationFrame loop. */
   this.stop = function() {
     cancel();
+    running = false;
+  };
+
+  /** @return {boolean} */
+  this.isRunning = function() {
+    return running;
   };
 
 };
