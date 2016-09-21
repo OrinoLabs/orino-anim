@@ -22,6 +22,8 @@ orino.anim.AnimationOptions.prototype = {
   duration: undefined,
   /** @type {function(orino.anim.AnimationState):void} */
   tick: null,
+  /** @type {boolean} */
+  passive: false,
 };
 
 
@@ -46,6 +48,12 @@ orino.anim.Animation = function(opt_opts) {
    * @private
    */
   this.duration_ = opts.duration || 0;
+
+  /**
+   * @type {boolean}
+   * @private
+   */
+  this.passive_ = opts.passive || false;
 
   if (opts.tick) {
     this.tick = opts.tick;
@@ -76,6 +84,17 @@ orino.anim.Animation.prototype.priority = orino.anim.Animation.DEFAULT_PRIORITY;
  * @package
  */
 orino.anim.Animation.prototype.conductor;
+
+
+/**
+ * Returns whether this animation is passive.
+ * Passive means it does not trigger an animation frame loop to be
+ * started when added to a conductor.
+ * @return {boolean}
+ */
+orino.anim.Animation.prototype.isPassive = function() {
+  return this.passive_;
+};
 
 
 /**

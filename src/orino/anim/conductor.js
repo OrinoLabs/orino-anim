@@ -71,7 +71,6 @@ orino.anim.Conductor.prototype.add = function(animation) {
 
   if (!this.animations_.length) {
     this.animations_.push(animation);
-    this.maybeStart_();
 
   } else {
     // Ensure the same animation is not added twice.
@@ -85,6 +84,8 @@ orino.anim.Conductor.prototype.add = function(animation) {
          idx++) {}
     this.animations_.splice(idx, 0, animation);
   }
+
+  this.maybeStart_();
 };
 
 
@@ -101,9 +102,8 @@ orino.anim.Conductor.prototype.remove = function(animation) {
   if (idx != -1) {
     this.animations_.splice(idx, 1);
   }
-  if (!this.animations_.length) {
-    this.stop();
-  }
+
+  this.maybeStop_();
 };
 
 
@@ -117,10 +117,35 @@ orino.anim.Conductor.prototype.clear = function() {
 
 
 /**
+ * @return {boolean}
+ * @private
+ */
+orino.anim.Conductor.prototype.activeAnimationsPresent_ = function() {
+  var haveActive = false;
+  this.animations_.forEach(function(animation) {
+    if (!animation.isPassive()) haveActive = true;
+  });
+  return haveActive;
+};
+
+
+/**
  * @private
  */
 orino.anim.Conductor.prototype.maybeStart_ = function() {
-  this.start();
+  if (this.activeAnimationsPresent_()) {
+    this.start();
+  }
+};
+
+
+/**
+ * @private
+ */
+orino.anim.Conductor.prototype.maybeStop_ = function() {
+  if (!this.activeAnimationsPresent_()) {
+    this.stop();
+  }
 };
 
 
