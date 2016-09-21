@@ -30,13 +30,6 @@ orino.anim.Conductor = function() {
 orino.anim.Conductor.prototype = Object.create(orino.anim.Animation.prototype);
 
 
-/** 
- * @type {number}
- * @private
- */
-orino.anim.Conductor.prototype.animFrameId_ = 0;
-
-
 /**
  * @type {orino.anim.Loop}
  * @private
