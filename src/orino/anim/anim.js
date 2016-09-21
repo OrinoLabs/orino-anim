@@ -21,11 +21,11 @@ orino.anim.rootConductor_;
  * @return {animate.Conductor}
  */
 orino.anim.rootConductor = function() {
-  if (!animate.rootConductor_) {
-    animate.rootConductor_ = new animate.Conductor;
+  if (!orino.anim.rootConductor_) {
+    orino.anim.rootConductor_ = new orino.anim.Conductor;
   }
 
-  return animate.rootConductor_;
+  return orino.anim.rootConductor_;
 };
 
 
