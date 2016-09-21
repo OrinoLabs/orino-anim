@@ -7,6 +7,7 @@
 goog.provide('orino.anim.Conductor');
 
 goog.require('orino.anim.Animation');
+goog.require('orino.anim.Loop');
 
 
 
@@ -24,7 +25,6 @@ orino.anim.Conductor = function() {
    */
   this.animations_ = [];
 
-
   this.afterCurrentTickCallbacks_ = []
 };
 orino.anim.Conductor.prototype = Object.create(orino.anim.Animation.prototype);
@@ -35,6 +35,13 @@ orino.anim.Conductor.prototype = Object.create(orino.anim.Animation.prototype);
  * @private
  */
 orino.anim.Conductor.prototype.animFrameId_ = 0;
+
+
+/**
+ * @type {orino.anim.Loop}
+ * @private
+ */
+orino.anim.Conductor.prototype.loop_ = null;
 
 
 /**
@@ -123,11 +130,12 @@ orino.anim.Conductor.prototype.maybeStart_ = function() {
 orino.anim.Conductor.prototype.start = function() {
   if (this.conductor) {
     this.conductor.add(this);
+
   } else {
-    this.state.time = orino.anim.now();
-    this.boundTick_ || (this.boundTick_ = this.tick_.bind(this));
-    this.clearScheduledTick_();
-    this.scheduleTick_();
+    if (!this.loop_) {
+      this.loop_ = new orino.anim.Loop(this.tick_.bind(this))
+    }
+    this.loop_.start();
   }
 };
 
@@ -139,24 +147,8 @@ orino.anim.Conductor.prototype.stop = function() {
   if (this.conductor) {
     this.conductor.remove(this);
   } else {
-    this.clearScheduledTick_();
+    this.loop_ && this.loop_.stop();
   }
-};
-
-
-/**
- * @private
- */
-orino.anim.Conductor.prototype.scheduleTick_ = function() {
-  this.animFrameId_ = window.requestAnimationFrame(this.boundTick_);
-};
-
-
-/**
- * @private
- */
-orino.anim.Conductor.prototype.clearScheduledTick_ = function() {
-  window.cancelAnimationFrame(this.animFrameId_);
 };
 
 
@@ -169,10 +161,6 @@ orino.anim.Conductor.prototype.tick_ = function(time) {
   this.state.time = time;
 
   this.tickInternal(this.state);
-
-  if (this.animations_.length) {
-    this.scheduleTick_();
-  }
 };
 
 
