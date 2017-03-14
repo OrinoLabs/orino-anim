@@ -114,6 +114,9 @@ orino.anim.Conductor.prototype.remove = function(animation) {
  * Clears all animations.
  */
 orino.anim.Conductor.prototype.clear = function() {
+  this.animations_.slice().forEach(function(animation) {
+    animation.stop();
+  });
   this.stop();
   this.animations_.length = 0;
 };
