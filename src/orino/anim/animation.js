@@ -24,6 +24,10 @@ orino.anim.AnimationOptions.prototype = {
   tick: null,
   /** @type {boolean} */
   passive: false,
+  /** @type {boolean} */
+  disposeOnStop: false,
+  /** @type {Function} */
+  dispose: null,
 };
 
 
@@ -34,29 +38,33 @@ orino.anim.AnimationOptions.prototype = {
  * @implements {goog.Disposable}
  */
 orino.anim.Animation = function(opt_opts) {
-  var opts = opt_opts || {};
+  /**
+   * @type {orino.anim.AnimationOptions}
+   * @private
+   */
+  this.opts_ = opt_opts || {};
 
-  if (opts.conductor) {
-    this.conductor = opts.conductor;
+  if (this.opts_.conductor) {
+    this.conductor = this.opts_.conductor;
   }
-  if (opts.priority) {
-    this.priority = opts.priority;
+  if (this.opts_.priority) {
+    this.priority = this.opts_.priority;
   }
 
   /**
    * @type {number}
    * @private
    */
-  this.duration_ = opts.duration || 0;
+  this.duration_ = this.opts_.duration || 0;
 
   /**
    * @type {boolean}
    * @private
    */
-  this.passive_ = opts.passive || false;
+  this.passive_ = this.opts_.passive || false;
 
-  if (opts.tick) {
-    this.tick = opts.tick;
+  if (this.opts_.tick) {
+    this.tick = this.opts_.tick;
   }
 
   /**
@@ -134,6 +142,9 @@ orino.anim.Animation.prototype.start = function() {
  */
 orino.anim.Animation.prototype.stop = function() {
   this.conductor && this.conductor.remove(this);
+  if (this.opts_.disposeOnStop) {
+    this.dispose();
+  }
 };
 
 
@@ -174,4 +185,5 @@ orino.anim.Animation.prototype.tick = goog.abstractMethod;
  */
 orino.anim.Animation.prototype.dispose = function() {
   this.tick = null;
+  if (this.opts_.dispose) this.opts_.dispose();
 };
