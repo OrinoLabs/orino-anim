@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+<head>
+  <style>
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  #container {
+    width: 100%;
+    height: 100%;
+  }
+  .ball {
+    position: absolute;
+    border-radius: 50%;
+  }
+  #ctrls {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+  </style>
+</head>
+<body>
+  <div id="container">
+  </div>
+  <div id="ctrls">
+    <button onclick="addBalls(1)">+1</button>
+    <button onclick="addBalls(10)">+10</button>
+    <button onclick="addBalls(100)">+100</button>
+    <button onclick="removeBalls(10)">-10</button>
+    <button onclick="removeBalls(100)">-100</button>
+  </div>
+
+  <script type="module">
+
+    import * as anim from '../build/es6/anim.js';
+
+    function rnd(a, b) {
+      if (b === undefined) {
+        [a, b] = [0, a];
+      }
+      return a + Math.random() * (b - a);
+    }
+    function rndInt(a, b) {
+      return Math.floor(rnd(a, b));
+    }
+    function rndColor() {
+      return `rgb(${rndInt(256)},${rndInt(256)},${rndInt(256)})`;
+    }
+
+    let containerElem = document.querySelector('#container');
+    let rect = document.body.getBoundingClientRect();
+    window.onresize = () => {
+      rect = document.body.getBoundingClientRect();
+    }
+
+    const BALL_SIZE = 20;
+    const V_MIN = 100;
+    const V_MAX = 600;
+
+    class Ball {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+
+        this.elem = document.createElement('div');
+        this.elem.classList.add('ball');
+        this.elem.style.left = this.x + 'px';
+        this.elem.style.top = this.y + 'px';
+        this.elem.style.width = BALL_SIZE + 'px';
+        this.elem.style.height = BALL_SIZE + 'px';
+        this.elem.style.backgroundColor = rndColor();
+
+        let angle = rnd(2 * Math.PI);
+        let speed = rnd(V_MIN, V_MAX);
+        this.velocity = {
+          x: Math.cos(angle) * speed,
+          y: Math.sin(angle) * speed,
+        };
+      }
+
+      appendTo(elem) {
+        elem.appendChild(this.elem);
+      }
+
+      update() {
+        this.elem.style.left = this.x + 'px';
+        this.elem.style.top = this.y + 'px';        
+      }
+
+      startAnim() {
+        this.anim = new anim.Animation({
+          tick: (state) => {
+            let x = this.x + this.velocity.x * state.elapsed / 1000;
+            let y = this.y + this.velocity.y * state.elapsed / 1000;
+
+            if (x < 0) {
+              x = -x;
+              this.velocity.x = -this.velocity.x;
+            }
+
+            let r = rect.width - BALL_SIZE;
+            if (x > r) {
+              x = r - (x - r);
+              this.velocity.x = -this.velocity.x;
+            }
+
+            if (y < 0) {
+              y = -y;
+              this.velocity.y = -this.velocity.y;
+            }
+
+            let b = rect.height - BALL_SIZE;
+            if (y > b) {
+              y = b - (y - b);
+              this.velocity.y = -this.velocity.y;
+            }
+
+            this.x = x;
+            this.y = y;
+            this.update();
+          }
+        });
+        this.anim.start();
+      }
+
+      dispose() {
+        this.anim.stop();
+        this.elem.parentElement.removeChild(this.elem);
+        this.elem = null;
+      }
+    }
+
+    let balls = [];
+
+    function addBalls(n) {
+      for (let i = 0; i < n; i++) {
+        let b = new Ball(rndInt(rect.width), rndInt(rect.height));
+        b.appendTo(containerElem);
+        b.startAnim();
+        balls.push(b);
+      }
+    }
+
+    function removeBalls(n) {
+      while (balls.length && n--) {
+        let idx = rndInt(0, balls.length);
+        let b = balls.splice(idx, 1)[0];
+        b.dispose();
+      }
+    }
+
+    addBalls(10);
+
+    window.addBalls = addBalls;
+    window.removeBalls = removeBalls;
+
+  </script>
+</body>
+</html>
