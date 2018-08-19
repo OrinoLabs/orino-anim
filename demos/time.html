@@ -20,37 +20,34 @@
     <span id="time-display-2">0</span>
   </div>
 
-  <script src="../lib/closure-library/closure/goog/base.js"></script>
-  <script src="../src/animate/animationstate.js"></script>
-  <script src="../src/animate/animation.js"></script>
-  <script src="../src/animate/conductor.js"></script>
-  <script src="../src/animate/animate.js"></script>
-  <script>
-  var displayElem = document.querySelector('#time-display');
+  <script type="module">
+    import { Animation } from '../build/es6/anim.js';
 
-  var anim = new animate.Animation({
-    tick: function(state) {
-      displayElem.innerHTML = Math.round(state.time);
-    }
-  });
+    var displayElem = document.querySelector('#time-display');
 
-  function start() {
-    anim.start();
-  }
-  function stop() {
-    anim.stop();
-  }
-
-  function startLimited() {
-    var elem = document.querySelector('#time-display-2');
-    var anim = new animate.Animation({
-      duration: 1000,
+    var anim = new Animation({
       tick: function(state) {
-        elem.innerHTML = Math.round(state.totalElapsed);
+        displayElem.innerHTML = Math.round(state.time);
       }
     });
-    anim.start();
-  }
+
+    window.start = function() {
+      anim.start();
+    }
+    window.stop = function() {
+      anim.stop();
+    }
+
+    window.startLimited = function() {
+      var elem = document.querySelector('#time-display-2');
+      var anim = new Animation({
+        duration: 1000,
+        tick: function(state) {
+          elem.innerHTML = Math.round(state.totalElapsed);
+        }
+      });
+      anim.start();
+    }
 
   </script>
 </body> 
