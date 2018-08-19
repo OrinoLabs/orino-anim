@@ -8,5 +8,8 @@
   },
   "author": "Michael Bürge <mib@orino.ch>",
   "license": "",
-  "homepage": "https://github.com/OrinoLabs/orino-anim"
+  "homepage": "https://github.com/OrinoLabs/orino-anim",
+  "dependencies": {
+    "typescript": "2.9.x"
+  }
 }
