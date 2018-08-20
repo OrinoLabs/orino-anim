@@ -3,6 +3,7 @@
  * @author Michael Bürge <mib@orino.ch>
  */
 export { Animation } from './animation.js';
+export { AnimationState } from './animationstate.js';
 export { Conductor } from './conductor.js';
 export { FpsMonitor } from './fpsmonitor.js';
 // HACK: Provide Animation class with the root conductor.

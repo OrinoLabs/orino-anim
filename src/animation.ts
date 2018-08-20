@@ -22,8 +22,8 @@ export interface AnimationOptions {
   duration?: number,
   tick?: (state: AnimationState) => void,
   passive?: boolean,
-  disposeOnStop?: false,
-  dispose: () => void,
+  disposeOnStop?: boolean,
+  dispose?: () => void,
 }
 
 

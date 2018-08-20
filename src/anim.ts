@@ -5,6 +5,7 @@
 
 
 export { Animation } from './animation.js';
+export { AnimationState } from './animationstate.js';
 export { Conductor } from './conductor.js';
 export { FpsMonitor } from './fpsmonitor.js';
 
