@@ -14,7 +14,6 @@
 // https://github.com/Microsoft/TypeScript/issues/25959
 import { AnimationState } from './animationstate.js';
 import { Conductor } from './conductor.js';
-import { getRootConductor } from './anim.js';
 
 
 export interface AnimationOptions {
@@ -40,6 +39,9 @@ export class Animation {
   protected state: AnimationState;
 
   static DEFAULT_PRIORITY = 1;
+
+  static rootConductor: Conductor;
+
 
   constructor(opts?: AnimationOptions) {
     this.opts = opts || (<AnimationOptions> {});
@@ -92,7 +94,7 @@ export class Animation {
     }
 
     if (!this.conductor) {
-      this.conductor = getRootConductor();
+      this.conductor = Animation.rootConductor;  //getRootConductor();
     }
     this.conductor.add(this);
   }

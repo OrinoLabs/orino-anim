@@ -11,7 +11,6 @@
 // https://github.com/Microsoft/TypeScript/issues/16577
 // https://github.com/Microsoft/TypeScript/issues/25959
 import { AnimationState } from './animationstate.js';
-import { getRootConductor } from './anim.js';
 export class Animation {
     constructor(opts) {
         this.opts = opts || {};
@@ -51,7 +50,7 @@ export class Animation {
             this.tick();
         }
         if (!this.conductor) {
-            this.conductor = getRootConductor();
+            this.conductor = Animation.rootConductor; //getRootConductor();
         }
         this.conductor.add(this);
     }

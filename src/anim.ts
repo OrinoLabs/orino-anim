@@ -8,8 +8,6 @@ export { Animation } from './animation.js';
 export { Conductor } from './conductor.js';
 export { FpsMonitor } from './fpsmonitor.js';
 
-import { Conductor } from './conductor.js';
-
 
 // TS doesn't declare DOMHighResTimeStamp by default, therefore declaring it here.
 // It seems the web animations definition file is still work in progress.
@@ -17,12 +15,9 @@ import { Conductor } from './conductor.js';
 export type DOMHighResTimeStamp = number;
 
 
-let rootConductor: Conductor;
-
-
-export function getRootConductor(): Conductor {
-  if (!rootConductor) {
-    rootConductor = new Conductor;
-  }
-  return rootConductor;
-}
+// HACK: Provide Animation class with the root conductor.
+// This avoids a cyclic dependency issue occuring in ES6 and tsickle/closure-compiler
+// environments, which can't have cyclic load-time dependencies.
+import { Animation } from './animation.js';
+import { Conductor } from './conductor.js';
+Animation.rootConductor = new Conductor;
