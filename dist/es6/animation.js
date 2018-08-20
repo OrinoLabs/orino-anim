@@ -31,7 +31,7 @@ export class Animation {
         return this.passive;
     }
     /**
-     * @return {boolean} Whether the animation is running.
+     * Whether the animation is running.
      */
     isRunning() {
         return this.conductor && this.conductor.isRunning() || false;

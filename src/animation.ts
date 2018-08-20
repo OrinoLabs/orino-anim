@@ -67,7 +67,7 @@ export class Animation {
 
 
   /**
-   * @return {boolean} Whether the animation is running.
+   * Whether the animation is running.
    */
   isRunning(): boolean {
     return this.conductor && this.conductor.isRunning() || false;
