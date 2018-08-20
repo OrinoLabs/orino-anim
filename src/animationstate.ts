@@ -4,7 +4,7 @@
  */
 
 
-type DOMHighResTimeStamp = number;
+import { DOMHighResTimeStamp } from './anim.js';
 
 
 export class AnimationState {

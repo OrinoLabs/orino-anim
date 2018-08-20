@@ -4,12 +4,10 @@
  */
 
 
+import { DOMHighResTimeStamp } from './anim.js';
 import { Animation } from './animation.js';
 import { AnimationState } from './animationstate.js';
 import { Loop } from './loop.js';
-
-
-type DOMHighResTimeStamp = number;
 
 
 export class Conductor extends Animation {
