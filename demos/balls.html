@@ -32,6 +32,10 @@
     <button onclick="addBalls(100)">+100</button>
     <button onclick="removeBalls(10)">-10</button>
     <button onclick="removeBalls(100)">-100</button>
+    <div>
+      #Balls: <span id="num-balls"></span>,
+      FPS: <span id="fps"></span>
+    </div>
   </div>
 
   <script type="module">
@@ -52,9 +56,9 @@
     }
 
     let containerElem = document.querySelector('#container');
-    let rect = document.body.getBoundingClientRect();
+    let rect = containerElem.getBoundingClientRect();
     window.onresize = () => {
-      rect = document.body.getBoundingClientRect();
+      rect = containerElem.getBoundingClientRect();
     }
 
     const BALL_SIZE = 20;
@@ -143,6 +147,7 @@
         b.startAnim();
         balls.push(b);
       }
+      updateNumBalls();
     }
 
     function removeBalls(n) {
@@ -151,7 +156,18 @@
         let b = balls.splice(idx, 1)[0];
         b.dispose();
       }
+      updateNumBalls();
     }
+
+    function updateNumBalls() {
+      document.querySelector('#num-balls').innerHTML = balls.length;
+    }
+
+    let fpsDisplayElem = document.querySelector('#fps');
+    let fpsMonitor = new anim.FpsMonitor((fps) => {
+      fpsDisplayElem.innerHTML = Math.round(fps);
+    });
+    fpsMonitor.start();
 
     addBalls(10);
 
