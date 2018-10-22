@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "rootDir": "/Users/mib/projects/orinolabs/orino-anim/tsickle-build",
+    "outDir": "/Users/mib/projects/orinolabs/orino-anim/dist/tsickle-out",
+  },
+  "include": [
+    "/Users/mib/projects/orinolabs/orino-anim/tsickle-build/*.ts"
+  ]
+}

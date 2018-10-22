@@ -1,0 +1,14 @@
+{
+  "name": "tsickle-build",
+  "version": "0.1.0",
+  "description": "Running orino-anim through tsickle. In its own package to isolate the mess this currently is.",
+  "scripts": {
+    "build": "tsickle"
+  },
+  "author": "Michael Bürge <mib@orino.ch>",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "typescript": "git://github.com/mprobst/TypeScript.git#5456479a4a",
+    "tsickle": "file:../../../tsickle-npm-package"
+  }
+}
