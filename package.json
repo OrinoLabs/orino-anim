@@ -13,6 +13,7 @@
   "author": "Michael Bürge <mib@orino.ch>",
   "license": "",
   "homepage": "https://github.com/OrinoLabs/orino-anim",
+  "main": "index.ts",
   "devDependencies": {
     "typescript": "2.9.x"
   }
