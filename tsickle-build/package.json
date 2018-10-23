@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Running orino-anim through tsickle. In its own package to isolate the mess this currently is.",
   "scripts": {
-    "build": "tsickle"
+    "build": "./generate-tsconfig.sh; tsickle"
   },
   "author": "Michael Bürge <mib@orino.ch>",
   "license": "UNLICENSED",
