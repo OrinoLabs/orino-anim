@@ -9,6 +9,6 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "typescript": "git://github.com/mprobst/TypeScript.git#5456479a4a",
-    "tsickle": "file:../../../tsickle-npm-package"
+    "tsickle": "git://github.com/michaelbuerge/tsickle-publ.git#70ea05f7e914431919b33ce6e16f05bb3bf1258e"
   }
 }
