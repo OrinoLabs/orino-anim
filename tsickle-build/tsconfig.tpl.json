@@ -3,7 +3,7 @@
     "target": "es6",
     "module": "commonjs",
     "rootDir": "{{ROOT_DIR}}",
-    "outDir": "{{ROOT_DIR}}/../dist/tsickle-out",
+    "outDir": "{{ROOT_DIR}}/../dist/goog",
   },
   "include": [
     "{{ROOT_DIR}}/*.ts"
