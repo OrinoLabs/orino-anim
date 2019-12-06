@@ -9,6 +9,9 @@ import { DOMHighResTimeStamp } from './anim.js';
 
 export class AnimationState {
 
+  /** Whether time has been initialized */
+  initialized: boolean = false;
+
   /** The current time. */
   time: DOMHighResTimeStamp = 0;
 
