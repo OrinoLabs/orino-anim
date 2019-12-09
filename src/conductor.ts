@@ -127,8 +127,14 @@ export class Conductor extends Animation {
 
     } else {
       if (!this.loop) {
+        this.state.initialized = false;
         this.loop = new Loop((time: DOMHighResTimeStamp) => {
-          this.state.elapsed = time - this.state.time;
+          if (this.state.initialized) {
+            this.state.elapsed = time - this.state.time;
+          } else {
+            this.state.elapsed = 0;
+            this.state.initialized = true;
+          }
           this.state.time = time;
           this.tick();
         });
