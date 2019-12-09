@@ -96,8 +96,15 @@ class Conductor extends animation_js_1.Animation {
         }
         else {
             if (!this.loop) {
+                this.state.initialized = false;
                 this.loop = new loop_js_1.Loop((time) => {
-                    this.state.elapsed = time - this.state.time;
+                    if (this.state.initialized) {
+                        this.state.elapsed = time - this.state.time;
+                    }
+                    else {
+                        this.state.elapsed = 0;
+                        this.state.initialized = true;
+                    }
                     this.state.time = time;
                     this.tick();
                 });

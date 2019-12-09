@@ -6,6 +6,8 @@ goog.module('orino_anim.animationstate');
 var module = module || { id: 'orino-anim/animationstate.ts' };
 class AnimationState {
     constructor() {
+        /** Whether time has been initialized */
+        this.initialized = false;
         /** The current time. */
         this.time = 0;
         /** The time elapsed since the last tick. */
