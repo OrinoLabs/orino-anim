@@ -126,8 +126,8 @@ export class Conductor extends Animation {
       this.conductor.add(this);
 
     } else {
+      this.state.initialized = false;
       if (!this.loop) {
-        this.state.initialized = false;
         this.loop = new Loop((time: DOMHighResTimeStamp) => {
           if (this.state.initialized) {
             this.state.elapsed = time - this.state.time;
