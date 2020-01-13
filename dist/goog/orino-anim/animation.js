@@ -90,7 +90,6 @@ class Animation {
      * Disposes this instance.
      */
     dispose() {
-        this.tick = null;
         if (this.opts.dispose)
             this.opts.dispose();
     }

@@ -98,7 +98,8 @@ export class Conductor extends Animation {
                 this.loop = new Loop((time) => {
                     if (this.state.initialized) {
                         this.state.elapsed = time - this.state.time;
-                    } else {
+                    }
+                    else {
                         this.state.elapsed = 0;
                         this.state.initialized = true;
                     }
