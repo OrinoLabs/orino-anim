@@ -95,8 +95,8 @@ class Conductor extends animation_js_1.Animation {
             this.conductor.add(this);
         }
         else {
+            this.state.initialized = false;
             if (!this.loop) {
-                this.state.initialized = false;
                 this.loop = new loop_js_1.Loop((time) => {
                     if (this.state.initialized) {
                         this.state.elapsed = time - this.state.time;

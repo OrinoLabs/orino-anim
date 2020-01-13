@@ -4,6 +4,8 @@
  */
 export class AnimationState {
     constructor() {
+        /** Whether time has been initialized */
+        this.initialized = false;
         /** The current time. */
         this.time = 0;
         /** The time elapsed since the last tick. */
