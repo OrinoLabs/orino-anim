@@ -10,6 +10,8 @@ var animationstate_js_1 = goog.require('orino_anim.animationstate');
 exports.AnimationState = animationstate_js_1.AnimationState;
 var conductor_js_1 = goog.require('orino_anim.conductor');
 exports.Conductor = conductor_js_1.Conductor;
+var loop_js_1 = goog.require('orino_anim.loop');
+exports.Loop = loop_js_1.Loop;
 var fpsmonitor_js_1 = goog.require('orino_anim.fpsmonitor');
 exports.FpsMonitor = fpsmonitor_js_1.FpsMonitor;
 // HACK: Provide Animation class with the root conductor.
