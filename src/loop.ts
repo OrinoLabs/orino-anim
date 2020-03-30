@@ -9,6 +9,17 @@ import { DOMHighResTimeStamp } from './anim.js';
 
 export class Loop {
 
+  /**
+   * Static optional function called to determine whether the callback should be
+   * invoked in an animation frame.
+   * Use case example: With too much going on, Edge Legacy has been observed to
+   * not invoke callbacks scheduled with setTimeout anymore. Edge Legacy seems to
+   * have some rather bad scheduling problems, especially on single processor systems.
+   * In addition to the already mentioned issue with timeouts, output to the
+   * console can become extremely laggy too.
+   */
+  public static shouldTick?: ((time: DOMHighResTimeStamp) => boolean) = undefined;
+
   private callback: (time: DOMHighResTimeStamp) => void;
 
   private running: boolean = false;
@@ -21,7 +32,9 @@ export class Loop {
 
 
   private tick(time: DOMHighResTimeStamp) {
-    this.callback(time);
+    if (!Loop.shouldTick || Loop.shouldTick(time)) {
+      this.callback(time);
+    }
     this.scheduleNext();
   }
 

@@ -7,6 +7,7 @@
 export { Animation } from './animation.js';
 export { AnimationState } from './animationstate.js';
 export { Conductor } from './conductor.js';
+export { Loop } from './loop.js';
 export { FpsMonitor } from './fpsmonitor.js';
 
 
