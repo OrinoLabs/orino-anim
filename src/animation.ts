@@ -35,6 +35,7 @@ export class Animation {
   readonly priority?: number;
   private duration?: number;
   private passive: boolean;
+  private paused: boolean = false;
 
   protected state: AnimationState;
 
@@ -77,6 +78,14 @@ export class Animation {
 
 
   /**
+   * Whether the animation is paused.
+   */
+  isPaused(): boolean {
+    return this.paused;
+  }
+
+
+  /**
    * Starts the animation.
    */
   start() {
@@ -111,9 +120,23 @@ export class Animation {
   }
 
 
+  pause() {
+    this.paused = true;
+  }
+
+
+  resume() {
+    this.paused = false;
+  }
+
+
   updateAndTick(conductorState: AnimationState) {
     this.state.time = conductorState.time;
     this.state.elapsed = conductorState.elapsed;
+
+    if (this.paused) {
+      return;
+    }
 
     this.state.totalElapsed += this.state.elapsed;
 
