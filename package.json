@@ -7,14 +7,13 @@
     "url": "https://github.com/orinolabs/orino-anim.git"
   },
   "scripts": {
-    "build": "tsc --watch",
-    "build-tsickle": "cd tsickle-build; npm run build"
+    "build": "tsc --watch"
   },
   "author": "Michael Bürge <mib@orino.ch>",
   "license": "",
   "homepage": "https://github.com/orinolabs/orino-anim",
   "main": "index.ts",
   "devDependencies": {
-    "typescript": "2.9.x"
+    "typescript": "~3.9.7"
   }
 }
