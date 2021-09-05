@@ -1,6 +1,6 @@
 {
   "name": "orino-anim",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "Animation library.",
   "repository": {
     "type": "git",
@@ -10,7 +10,7 @@
     "build": "tsc --watch"
   },
   "author": "Michael Bürge <mib@orino.ch>",
-  "license": "",
+  "license": "MIT",
   "homepage": "https://github.com/orinolabs/orino-anim",
   "main": "index.ts",
   "devDependencies": {
