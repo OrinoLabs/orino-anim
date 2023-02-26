@@ -4,10 +4,9 @@
  */
 
 
-import { DOMHighResTimeStamp } from './anim.js';
-import { Animation } from './animation.js';
-import { AnimationState } from './animationstate.js';
-import { Loop } from './loop.js';
+import { DOMHighResTimeStamp } from './anim';
+import { Animation } from './animation';
+import { Loop } from './loop';
 
 
 export class Conductor extends Animation {

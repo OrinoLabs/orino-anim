@@ -4,16 +4,8 @@
  */
 
 
-// HACK: Using .js suffix for import paths.
-// These files do not actually exist, but tsc will still find the corresponding
-// typescript files.
-// This gets tsc to emit working ES6 imports (which include the suffix).
-// With the 'proper' TS way (omitting the suffix), the emitted ES6 modules won't
-// have the suffix either.
-// https://github.com/Microsoft/TypeScript/issues/16577
-// https://github.com/Microsoft/TypeScript/issues/25959
-import { AnimationState } from './animationstate.js';
-import { Conductor } from './conductor.js';
+import { AnimationState } from './animationstate';
+import { Conductor } from './conductor';
 
 
 export interface AnimationOptions {

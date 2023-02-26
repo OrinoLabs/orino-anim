@@ -4,7 +4,7 @@
  */
 
 
-import { DOMHighResTimeStamp } from './anim.js';
+import { DOMHighResTimeStamp } from './anim';
 
 
 export class Loop {

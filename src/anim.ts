@@ -4,11 +4,11 @@
  */
 
 
-export { Animation } from './animation.js';
-export { AnimationState } from './animationstate.js';
-export { Conductor } from './conductor.js';
-export { Loop } from './loop.js';
-export { FpsMonitor } from './fpsmonitor.js';
+export { Animation } from './animation';
+export { AnimationState } from './animationstate';
+export { Conductor } from './conductor';
+export { Loop } from './loop';
+export { FpsMonitor } from './fpsmonitor';
 
 
 // TS doesn't declare DOMHighResTimeStamp by default, therefore declaring it here.
@@ -20,6 +20,6 @@ export type DOMHighResTimeStamp = number;
 // HACK: Provide Animation class with the root conductor.
 // This avoids a cyclic dependency issue occuring in ES6 and tsickle/closure-compiler
 // environments, which can't have cyclic load-time dependencies.
-import { Animation } from './animation.js';
-import { Conductor } from './conductor.js';
+import { Animation } from './animation';
+import { Conductor } from './conductor';
 Animation.rootConductor = new Conductor;

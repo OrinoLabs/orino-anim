@@ -4,8 +4,7 @@
  */
 
 
-import { Animation } from './animation.js';
-import { AnimationState } from './animationstate.js';
+import { Animation } from './animation';
 
 
 export class FpsMonitor extends Animation {
