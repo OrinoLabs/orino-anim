@@ -9,7 +9,9 @@ export class Loop {
         this.callback = callback;
     }
     tick(time) {
-        this.callback(time);
+        if (!Loop.shouldTick || Loop.shouldTick(time)) {
+            this.callback(time);
+        }
         this.scheduleNext();
     }
     scheduleNext() {
@@ -33,3 +35,13 @@ export class Loop {
         return this.running;
     }
 }
+/**
+ * Static optional function called to determine whether the callback should be
+ * invoked in an animation frame.
+ * Use case example: With too much going on, Edge Legacy has been observed to
+ * not invoke callbacks scheduled with setTimeout anymore. Edge Legacy seems to
+ * have some rather bad scheduling problems, especially on single processor systems.
+ * In addition to the already mentioned issue with timeouts, output to the
+ * console can become extremely laggy too.
+ */
+Loop.shouldTick = undefined;

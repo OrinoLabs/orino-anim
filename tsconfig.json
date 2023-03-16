@@ -5,6 +5,8 @@
     "rootDir": "src",
     "lib": ["dom", "es2015"],
     "outDir": "dist/es2015",
+    "noImplicitThis": true,
+    "noImplicitOverride": true,
   },
   "include": [
     "src/*.ts",

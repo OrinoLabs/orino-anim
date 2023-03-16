@@ -5,6 +5,7 @@
 export { Animation } from './animation.js';
 export { AnimationState } from './animationstate.js';
 export { Conductor } from './conductor.js';
+export { Loop } from './loop.js';
 export { FpsMonitor } from './fpsmonitor.js';
 // HACK: Provide Animation class with the root conductor.
 // This avoids a cyclic dependency issue occuring in ES6 and tsickle/closure-compiler
