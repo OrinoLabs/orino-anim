@@ -13,6 +13,7 @@
 import { AnimationState } from './animationstate.js';
 export class Animation {
     constructor(opts) {
+        this.paused = false;
         this.opts = opts || {};
         this.conductor = this.opts.conductor || undefined;
         this.priority = this.opts.priority || Animation.DEFAULT_PRIORITY;
@@ -34,6 +35,12 @@ export class Animation {
      */
     isRunning() {
         return this.conductor && this.conductor.isRunning() || false;
+    }
+    /**
+     * Whether the animation is paused.
+     */
+    isPaused() {
+        return this.paused;
     }
     /**
      * Starts the animation.
@@ -63,9 +70,18 @@ export class Animation {
             this.dispose();
         }
     }
+    pause() {
+        this.paused = true;
+    }
+    resume() {
+        this.paused = false;
+    }
     updateAndTick(conductorState) {
         this.state.time = conductorState.time;
         this.state.elapsed = conductorState.elapsed;
+        if (this.paused) {
+            return;
+        }
         this.state.totalElapsed += this.state.elapsed;
         if (this.duration) {
             this.state.progress = this.state.totalElapsed / this.duration;

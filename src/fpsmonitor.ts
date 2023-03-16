@@ -39,7 +39,7 @@ export class FpsMonitor extends Animation {
   }
 
 
-  tick() {
+  override tick() {
     this.timestamps[this.head] = this.state.time;
     this.incHead();
     if (this.head == this.tail) {

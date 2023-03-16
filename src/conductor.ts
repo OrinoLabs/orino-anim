@@ -32,7 +32,7 @@ export class Conductor extends Animation {
   /**
    * @override
    */
-  isRunning() {
+  override isRunning() {
     if (this.conductor) return this.conductor.isRunning();
     if (this.loop) return this.loop.isRunning();
     return false;
@@ -121,7 +121,7 @@ export class Conductor extends Animation {
   }
 
 
-  start() {
+  override start() {
     if (this.conductor) {
       this.conductor.add(this);
 
@@ -144,7 +144,7 @@ export class Conductor extends Animation {
   }
 
 
-  stop() {
+  override stop() {
     if (this.conductor) {
       this.conductor.remove(this);
     } else {
@@ -153,7 +153,7 @@ export class Conductor extends Animation {
   }
 
 
-  tick() {
+  override tick() {
     this.inTick = true;
     for (var i = 0; i < this.animations.length; i++) {
       var anim = this.animations[i];
@@ -170,7 +170,7 @@ export class Conductor extends Animation {
   /**
    * Disposes this instance.
    */
-  dispose() {
+  override dispose() {
     super.dispose();
     this.animations = null;
   }
